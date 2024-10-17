@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Victoria College Palakkad Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 10px 0;
+        }
+        button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Victoria College Palakkad Quiz</h1>
+        <div id="quiz"></div>
+        <button id="submit" style="display: none;">Submit</button>
+        <div id="result" style="display: none;"></div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "When was Victoria College, Palakkad established?",
+                a: "1888",
+                b: "1900",
+                c: "1947",
+                d: "1960",
+                correct: "a"
+            },
+            {
+                question: "Who is the founder of Victoria College?",
+                a: "M. K. Gandhi",
+                b: "M. S. Swaminathan",
+                c: "R. Sankar",
+                d: "Dr. A. R. Rajarathnam",
+                correct: "c"
+            },
+            {
+                question: "What is the motto of Victoria College?",
+                a: "Knowledge is Power",
+                b: "Light and Learning",
+                c: "Education for All",
+                d: "Service Before Self",
+                correct: "b"
+            },
+            {
+                question: "Which stream does Victoria College primarily focus on?",
+                a: "Engineering",
+                b: "Arts and Sciences",
+                c: "Medical",
+                d: "Commerce",
+                correct: "b"
+            },
+            {
+                question: "In which city is Victoria College located?",
+                a: "Kochi",
+                b: "Palakkad",
+                c: "Kozhikode",
+                d: "Thrissur",
+                correct: "b"
+            }
+        ];
+
+        const quizContainer = document.getElementById('quiz');
+        const submitButton = document.getElementById('submit');
+        const resultContainer = document.getElementById('result');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const currentQuestion = quizData[currentQuestionIndex];
+            quizContainer.innerHTML = `
+                <div class="question">${currentQuestion.question}</div>
+                <ul class="options">
+                    <li><input type="radio" name="answer" value="a"> ${currentQuestion.a}</li>
+                    <li><input type="radio" name="answer" value="b"> ${currentQuestion.b}</li>
+                    <li><input type="radio" name="answer" value="c"> ${currentQuestion.c}</li>
+                    <li><input type="radio" name="answer" value="d"> ${currentQuestion.d}</li>
+                </ul>
+            `;
+        }
+
+        function submitQuiz() {
+            const answers = document.querySelectorAll('input[name="answer"]');
+            let selectedAnswer;
+            answers.forEach(answer => {
+                if (answer.checked) {
+                    selectedAnswer = answer.value;
+                }
+            });
+
+            if (selectedAnswer === quizData[currentQuestionIndex].correct) {
+                score++;
+            }
+
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < quizData.length) {
+                loadQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            quizContainer.style.display = 'none';
+            submitButton.style.display = 'none';
+            resultContainer.style.display = 'block';
+            resultContainer.innerHTML = `You scored ${score} out of ${quizData.length}`;
+        }
+
+        submitButton.addEventListener('click', submitQuiz);
+        loadQuestion();
+        submitButton.style.display = 'block';
+    </script>
+</body>
+</html>
